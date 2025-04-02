@@ -45,6 +45,37 @@ resource "azurerm_cosmosdb_sql_database" "dbnosql-media" {
   account_name        = azurerm_cosmosdb_account.dbnosql.name
 }
 
+resource "azurerm_cosmosdb_sql_container" "example" {
+    name                  = "dbnosql-media-${lower(var.project_name)}-${lower(var.repository_name)}-container"
+    resource_group_name   = azurerm_cosmosdb_account.dbnosql.resource_group_name
+    account_name          = azurerm_cosmosdb_account.dbnosql.name
+    database_name         = azurerm_cosmosdb_sql_database.dbnosql-media.name
+    partition_key_paths   = ["/definition/id"]
+    partition_key_version = 1
+    throughput            = 400
+
+    indexing_policy {
+        indexing_mode = "consistent"
+
+        included_path {
+        path = "/*"
+        }
+
+        included_path {
+        path = "/included/?"
+        }
+
+        excluded_path {
+        path = "/excluded/?"
+        }
+    }
+
+    unique_key {
+        paths = ["/definition/idlong", "/definition/idshort"]
+    }
+}
+
+
 resource "azurerm_redis_cache" "cache" {
     name = "cache-${lower(var.project_name)}-${lower(var.repository_name)}"
     resource_group_name = azurerm_resource_group.rg.name
