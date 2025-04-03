@@ -26,10 +26,10 @@ variable "project_name" {
   
 }
 
-variable "repository_name" {
+variable "environment" {
     description = "The name of the repository"
     type        = string
-    default     = "repoa"
+    default     = "dev"
   
 }
 

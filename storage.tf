@@ -1,5 +1,5 @@
 resource "azurerm_storage_account" "samedia" {
-    name =  "${lower(var.project_name)}${lower(var.repository_name)}samedia"
+    name =  "${lower(var.project_name)}${lower(var.environment)}samedia"
     resource_group_name = azurerm_resource_group.rg.name
     location = var.location
     account_tier = "Standard"
@@ -17,7 +17,7 @@ resource "azurerm_storage_container" "container" {
 }
 
 resource "azurerm_storage_account" "saqueue" {
-    name =  "${lower(var.project_name)}${lower(var.repository_name)}saqueue"
+    name =  "${lower(var.project_name)}${lower(var.environment)}saqueue"
     resource_group_name = azurerm_resource_group.rg.name
     location = var.location
     account_tier = "Standard"
